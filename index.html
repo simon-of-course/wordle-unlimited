@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#111319">
+    <title>Wortle Unlimited</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="game">
+      <header class="topbar">
+        <button class="icon-button" id="help-button" aria-label="Spielregeln anzeigen" title="Spielregeln">?</button>
+        <h1><span class="brand-icon" aria-hidden="true">W</span><span class="brand-name">WORTLE<small>UNLIMITED</small></span></h1>
+        <button class="icon-button" id="new-game-button" aria-label="Neue Runde" title="Neue Runde">↻</button>
+      </header>
+
+      <section class="intro" aria-label="Spielanleitung">
+        <span class="eyebrow">DAS WORT-RÄTSEL</span>
+        <h2>Ein Wort. Sechs Chancen.</h2>
+        <p class="subtle">Errate das Wort mit fünf Buchstaben.</p>
+      </section>
+
+      <section id="board" class="board" aria-label="Spielfeld" aria-live="polite"></section>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+      <section id="keyboard" class="keyboard" aria-label="Bildschirmtastatur"></section>
+
+      <footer>Ein neues Wort wartet schon. <button id="footer-new-game">Nochmal spielen</button></footer>
+    </main>
+
+    <dialog id="help-dialog">
+      <button id="close-help" class="dialog-close" aria-label="Schließen">×</button>
+      <h2>So wird gespielt</h2>
+      <p>Finde das gesuchte deutsche Wort mit fünf Buchstaben. Du hast sechs Versuche.</p>
+      <div class="example">
+        <span class="example-tile correct">W</span>
+        <span class="example-tile">O</span>
+        <span class="example-tile">L</span>
+        <span class="example-tile">K</span>
+        <span class="example-tile">E</span>
+      </div>
+      <p><strong>Grün</strong> bedeutet: richtiger Buchstabe am richtigen Platz.</p>
+      <div class="example">
+        <span class="example-tile">W</span>
+        <span class="example-tile">O</span>
+        <span class="example-tile present">L</span>
+        <span class="example-tile">K</span>
+        <span class="example-tile">E</span>
+      </div>
+      <p><strong>Gelb</strong> bedeutet: Der Buchstabe kommt im Wort vor, aber an einer anderen Stelle.</p>
+      <p>Mit <kbd>Enter</kbd> bestätigst du dein Wort, mit <kbd>⌫</kbd> löschst du einen Buchstaben. Es gibt kein Rundenlimit – starte einfach so oft neu, wie du möchtest.</p>
+    </dialog>
+  </body>
+</html>
