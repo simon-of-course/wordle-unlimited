@@ -26,12 +26,16 @@
       <section class="intro" aria-label="Spielanleitung">
         <span class="eyebrow">DAS WORT-RÄTSEL</span>
         <h2>Ein Wort. Sechs Chancen.</h2>
-        <p class="subtle">Errate das Wort mit fünf Buchstaben.</p>
+        <p class="subtle" id="device-hint">Errate das Wort mit fünf Buchstaben.</p>
       </section>
 
-      <section id="board" class="board" aria-label="Spielfeld" aria-live="polite"></section>
-      <p id="message" class="message" role="status" aria-live="polite"></p>
-      <section id="keyboard" class="keyboard" aria-label="Bildschirmtastatur"></section>
+      <div class="play-layout">
+        <div class="board-panel">
+          <section id="board" class="board" aria-label="Spielfeld" aria-live="polite"></section>
+          <p id="message" class="message" role="status" aria-live="polite"></p>
+        </div>
+        <section id="keyboard" class="keyboard" aria-label="Bildschirmtastatur"></section>
+      </div>
 
       <footer>Ein neues Wort wartet schon. <button id="footer-new-game">Nochmal spielen</button></footer>
     </main>

@@ -70,6 +70,8 @@ const board = document.querySelector("#board");
 const keyboard = document.querySelector("#keyboard");
 const message = document.querySelector("#message");
 const helpDialog = document.querySelector("#help-dialog");
+const deviceHint = document.querySelector("#device-hint");
+const touchPointer = window.matchMedia("(pointer: coarse)");
 
 let answer = "";
 let currentGuess = "";
@@ -251,6 +253,17 @@ function submitGuess() {
   }
 }
 
+function updateDeviceProfile() {
+  const hasTouch = touchPointer.matches || navigator.maxTouchPoints > 0;
+  const isMobile = window.innerWidth <= 699 || (hasTouch && window.innerWidth <= 1024);
+
+  document.documentElement.dataset.device = isMobile ? "mobile" : "desktop";
+  document.documentElement.dataset.input = hasTouch ? "touch" : "keyboard";
+  deviceHint.textContent = hasTouch
+    ? "Tippe die Buchstaben an oder nutze eine verbundene Tastatur."
+    : "Rate mit deiner Tastatur oder klicke die Buchstaben an.";
+}
+
 document.addEventListener("keydown", (event) => {
   if (event.ctrlKey || event.metaKey || event.altKey || helpDialog.open) return;
   const key = event.key.toLocaleUpperCase("de-DE");
@@ -267,6 +280,10 @@ document.querySelector("#close-help").addEventListener("click", () => helpDialog
 helpDialog.addEventListener("click", (event) => {
   if (event.target === helpDialog) helpDialog.close();
 });
+
+window.addEventListener("resize", updateDeviceProfile, { passive: true });
+touchPointer.addEventListener("change", updateDeviceProfile);
+updateDeviceProfile();
 
 if ("serviceWorker" in navigator && location.protocol === "https:") {
   navigator.serviceWorker.register("./service-worker.js")
