@@ -70,6 +70,8 @@ const board = document.querySelector("#board");
 const keyboard = document.querySelector("#keyboard");
 const message = document.querySelector("#message");
 const helpDialog = document.querySelector("#help-dialog");
+const nicknameDialog = document.querySelector("#nickname-dialog");
+const leaderboardDialog = document.querySelector("#leaderboard-dialog");
 const deviceHint = document.querySelector("#device-hint");
 const touchPointer = window.matchMedia("(pointer: coarse)");
 
@@ -238,18 +240,33 @@ function submitGuess() {
 
   if (guess === answer) {
     gameOver = true;
+    const completionMessage = recordCompletedGame(true);
     window.setTimeout(() => {
       if (activeGameId !== gameId) return;
       message.textContent = guesses.length === 1
-        ? "Fantastisch – gleich beim ersten Versuch!"
-        : "Richtig! Gut gemacht.";
+        ? `Fantastisch – gleich beim ersten Versuch!${completionMessage}`
+        : `Richtig! Gut gemacht.${completionMessage}`;
     }, COLUMNS * 220);
   } else if (guesses.length === ROWS) {
     gameOver = true;
+    const completionMessage = recordCompletedGame(false);
     window.setTimeout(() => {
       if (activeGameId !== gameId) return;
-      message.textContent = `Schade! Gesucht war ${answer}.`;
+      message.textContent = `Schade! Gesucht war ${answer}.${completionMessage}`;
     }, COLUMNS * 220);
+  }
+}
+
+function recordCompletedGame(solved) {
+  try {
+    const points = window.WortleLeaderboard.addCompletedGame({
+      solved,
+      attempts: guesses.length
+    });
+    return solved ? ` +${points} Punkte` : "";
+  } catch (error) {
+    console.error("Das Spielergebnis konnte nicht gespeichert werden:", error);
+    return " Ergebnis konnte nicht gespeichert werden.";
   }
 }
 
@@ -265,7 +282,7 @@ function updateDeviceProfile() {
 }
 
 document.addEventListener("keydown", (event) => {
-  if (event.ctrlKey || event.metaKey || event.altKey || helpDialog.open) return;
+  if (event.ctrlKey || event.metaKey || event.altKey || helpDialog.open || nicknameDialog.open || leaderboardDialog.open) return;
   const key = event.key.toLocaleUpperCase("de-DE");
   if (key === "ENTER" || key === "BACKSPACE" || /^[A-ZÄÖÜ]$/u.test(key)) {
     event.preventDefault();
@@ -291,3 +308,4 @@ if ("serviceWorker" in navigator && location.protocol === "https:") {
 }
 
 newGame();
+window.WortleLeaderboard.initialize();

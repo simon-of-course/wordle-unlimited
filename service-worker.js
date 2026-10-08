@@ -1,9 +1,11 @@
-const CACHE_NAME = "wortle-unlimited-v2";
+const CACHE_NAME = "wortle-unlimited-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./style.css",
   "./script.js",
+  "./supabase-config.js",
+  "./leaderboard.js",
   "./manifest.webmanifest",
   "./icon.svg",
   "./apple-touch-icon.png",

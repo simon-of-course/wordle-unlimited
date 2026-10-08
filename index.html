@@ -13,20 +13,25 @@
     <link rel="icon" type="image/svg+xml" href="icon.svg">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
   </head>
   <body>
     <main class="game">
       <header class="topbar">
         <button class="icon-button" id="help-button" aria-label="Spielregeln anzeigen" title="Spielregeln">?</button>
         <h1><span class="brand-icon" aria-hidden="true">W</span><span class="brand-name">WORTLE<small>UNLIMITED</small></span></h1>
-        <button class="icon-button" id="new-game-button" aria-label="Neue Runde" title="Neue Runde">↻</button>
+        <div class="topbar-actions">
+          <button class="icon-button" id="profile-button" aria-label="Spitznamen eingeben oder ändern" title="Spitzname">♙</button>
+          <button class="icon-button" id="leaderboard-button" aria-label="Bestenliste anzeigen" title="Bestenliste">♜</button>
+          <button class="icon-button" id="new-game-button" aria-label="Neue Runde" title="Neue Runde">↻</button>
+        </div>
       </header>
 
       <section class="intro" aria-label="Spielanleitung">
         <span class="eyebrow">DAS WORT-RÄTSEL</span>
         <h2>Ein Wort. Sechs Chancen.</h2>
         <p class="subtle" id="device-hint">Errate das Wort mit fünf Buchstaben.</p>
+        <p class="player-summary" id="player-summary" aria-live="polite"></p>
+        <p class="profile-status" id="profile-status" role="status" aria-live="polite"></p>
       </section>
 
       <div class="play-layout">
@@ -71,5 +76,64 @@
       <p>Mit <kbd>Enter</kbd> bestätigst du dein Wort, mit <kbd>⌫</kbd> löschst du einen Buchstaben. Es gibt kein Rundenlimit – starte einfach so oft neu, wie du möchtest.</p>
       <p>Auf dem iPhone: Öffne die Seite in Safari, tippe auf <strong>Teilen</strong> und dann auf <strong>Zum Home-Bildschirm</strong>. Aktiviere „Als Web-App öffnen“, wenn die Option angezeigt wird.</p>
     </dialog>
+
+    <dialog id="nickname-dialog" aria-labelledby="nickname-title">
+      <button id="close-nickname" class="dialog-close" type="button" aria-label="Schließen">×</button>
+      <span class="eyebrow">DEIN SPIELPROFIL</span>
+      <h2 id="nickname-title">Wie sollen wir dich nennen?</h2>
+      <p>Dein Spitzname erscheint zusammen mit Punkten und Ergebnissen auf der gemeinsamen Bestenliste.</p>
+      <form id="nickname-form">
+        <label for="nickname-input">Spitzname</label>
+        <input id="nickname-input" name="nickname" type="text" minlength="2" maxlength="16" pattern="[A-Za-z0-9_.-]{2,16}" autocomplete="nickname" required>
+        <p class="dialog-hint">2–16 Zeichen: Buchstaben, Zahlen, Punkt, Bindestrich oder Unterstrich.</p>
+        <p id="nickname-error" class="dialog-error" role="status" aria-live="polite"></p>
+        <div class="dialog-actions">
+          <button id="cancel-nickname" class="secondary-button" type="button" hidden>Abbrechen</button>
+          <button class="primary-button" type="submit">Spitzname speichern</button>
+        </div>
+      </form>
+      <p class="privacy-note">Deine Spielstatistiken werden unter diesem Spitznamen geteilt. Es wird keine E-Mail-Adresse benötigt. Das Profil ist an diesen Browser gebunden; beim Löschen der Website-Daten geht der Online-Zugriff darauf verloren.</p>
+    </dialog>
+
+    <dialog id="leaderboard-dialog" class="leaderboard-dialog" aria-labelledby="leaderboard-title">
+      <button id="close-leaderboard" class="dialog-close" type="button" aria-label="Schließen">×</button>
+      <div class="leaderboard-header">
+        <div>
+          <span class="eyebrow">WORTLE COMMUNITY</span>
+          <h2 id="leaderboard-title">Bestenliste</h2>
+          <p>Wer rätselt am cleversten?</p>
+        </div>
+        <button id="refresh-leaderboards" class="secondary-button" type="button">Aktualisieren</button>
+      </div>
+      <p id="leaderboard-status" class="leaderboard-status" role="status" aria-live="polite"></p>
+      <div class="leaderboard-grid">
+        <section class="leaderboard-card">
+          <span class="rank-icon" aria-hidden="true">01</span>
+          <h3>Wortakrobat</h3>
+          <p>Wenige Versuche pro gelöstem Wort. Niedriger ist besser.</p>
+          <ol id="leaderboard-fewest" class="leaderboard-entries"></ol>
+        </section>
+        <section class="leaderboard-card">
+          <span class="rank-icon" aria-hidden="true">02</span>
+          <h3>Wortjäger</h3>
+          <p>Die meisten erfolgreich gelösten Wörter.</p>
+          <ol id="leaderboard-most" class="leaderboard-entries"></ol>
+        </section>
+        <section class="leaderboard-card">
+          <span class="rank-icon" aria-hidden="true">03</span>
+          <h3>Wort-K/D</h3>
+          <p>Gelöste Wörter geteilt durch alle eingesetzten Versuche.</p>
+          <ol id="leaderboard-kd" class="leaderboard-entries"></ol>
+        </section>
+      </div>
+      <div class="leaderboard-footer">
+        <p><strong>Punkte:</strong> 100 pro gelöstem Wort plus 10 Bonuspunkte für jeden eingesparten Versuch.</p>
+        <button id="edit-nickname" class="secondary-button" type="button">Spitznamen ändern</button>
+      </div>
+    </dialog>
+
+    <script src="supabase-config.js" defer></script>
+    <script src="leaderboard.js" defer></script>
+    <script src="script.js" defer></script>
   </body>
 </html>
