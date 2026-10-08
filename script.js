@@ -268,4 +268,9 @@ helpDialog.addEventListener("click", (event) => {
   if (event.target === helpDialog) helpDialog.close();
 });
 
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  navigator.serviceWorker.register("./service-worker.js")
+    .catch((error) => console.error("Offline-Spiel konnte nicht eingerichtet werden:", error));
+}
+
 newGame();

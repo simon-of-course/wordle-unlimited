@@ -411,6 +411,24 @@ kbd {
   }
 }
 
+@media (display-mode: standalone) {
+  body {
+    padding:
+      env(safe-area-inset-top)
+      env(safe-area-inset-right)
+      env(safe-area-inset-bottom)
+      env(safe-area-inset-left);
+  }
+
+  .game {
+    width: min(100%, 490px);
+    min-height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    margin: 0 auto;
+    border-block: 0;
+    border-radius: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
