@@ -60,6 +60,18 @@ button {
   align-items: center;
 }
 
+.controls-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.controls-heading,
+.controls-note {
+  display: none;
+}
+
 .topbar {
   width: 100%;
   min-height: 70px;
@@ -345,6 +357,12 @@ dialog strong {
   font-size: 26px;
 }
 
+dialog {
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 .example {
   display: flex;
   gap: 5px;
@@ -379,12 +397,23 @@ kbd {
 }
 
 @media (max-width: 699px) {
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
   .game {
     width: 100%;
-    min-height: 100vh;
-    min-height: 100svh;
-    margin: 0 auto;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    margin: 0;
     padding: max(8px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+    overflow: hidden;
     border: 0;
     border-radius: 0;
     background:
@@ -394,113 +423,262 @@ kbd {
   }
 
   .topbar {
-    min-height: 62px;
+    flex: 0 0 56px;
+    min-height: 56px;
   }
 
   .intro {
-    margin: clamp(14px, 3svh, 24px) 0 15px;
+    flex: 0 0 auto;
+    margin: 10px 0 12px;
+  }
+
+  .play-layout {
+    flex: 1 1 0;
+    min-height: 0;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 5px;
+  }
+
+  .board-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    justify-content: center;
+  }
+
+  .controls-panel {
+    flex: 0 0 auto;
+  }
+
+  .controls-heading,
+  .controls-note {
+    display: none;
   }
 
   .board {
-    width: min(100%, 42svh, 340px);
+    width: min(100%, 42dvh, calc(83.333dvh - 283.333px), 340px);
+    max-height: calc(100% - 24px);
   }
 
   .keyboard {
     width: min(100%, 440px);
-    gap: 7px;
-    margin: 6px 0 12px;
+    flex: 0 0 auto;
+    gap: clamp(4px, .8dvh, 7px);
+    margin: 3px 0 5px;
   }
 
   .key {
-    height: 50px;
+    height: clamp(36px, 7.2dvh, 50px);
+  }
+
+  footer {
+    display: none;
+  }
+
+  dialog {
+    max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 24px);
+  }
+
+  dialog[open] {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .keyboard-row {
+    gap: 4px;
+  }
+}
+
+@media (max-width: 380px) {
+  .game {
+    padding-right: max(10px, env(safe-area-inset-right));
+    padding-left: max(10px, env(safe-area-inset-left));
+  }
+
+  .keyboard-row {
+    gap: 3px;
+  }
+
+  .key {
+    border-radius: 6px;
+    font-size: 12px;
+  }
+
+  .key.wide {
+    font-size: 9px;
   }
 }
 
 @media (max-width: 699px) and (max-height: 780px) {
   .topbar {
-    min-height: 54px;
+    flex-basis: 52px;
+    min-height: 52px;
   }
 
   .intro {
-    margin: 8px 0 10px;
+    margin: 6px 0 8px;
   }
 
   .board {
-    width: min(100%, 36svh, 300px);
+    width: min(100%, 44dvh, calc(83.333dvh - 283.333px), 340px);
   }
 
   .key {
-    height: 46px;
+    height: clamp(34px, 6.8dvh, 44px);
     border-radius: 7px;
   }
 
   .keyboard {
-    gap: 5px;
-    margin: 4px 0 8px;
+    gap: clamp(4px, .8dvh, 6px);
+    margin: 2px 0 4px;
+  }
+}
+
+@media (max-width: 699px) and (max-height: 600px) and (orientation: portrait) {
+  .topbar {
+    flex-basis: 46px;
+    min-height: 46px;
+  }
+
+  .intro {
+    margin: 4px 0 5px;
+  }
+
+  .eyebrow,
+  .subtle {
+    display: none;
+  }
+
+  .intro h2 {
+    margin: 0;
+    font-size: clamp(18px, 5vw, 21px);
+  }
+
+  .board {
+    width: min(100%, 42dvh, calc(83.333dvh - 208.333px), 340px);
+  }
+
+  .key {
+    height: clamp(34px, 7.2dvh, 42px);
+  }
+
+  .keyboard {
+    margin: 2px 0 3px;
   }
 }
 
 @media (min-width: 700px) and (max-width: 899px) {
   .game {
-    width: min(100% - 40px, 720px);
-  }
-
-  .board {
-    width: min(100%, 360px);
-  }
-}
-
-@media (min-width: 900px) and (min-height: 700px) {
-  .game {
-    width: min(calc(100% - 64px), 1040px);
-    min-height: min(840px, calc(100svh - 48px));
-    padding: 0 clamp(34px, 6vw, 76px) 22px;
-  }
-
-  .intro {
-    margin: 27px 0 24px;
-  }
-
-  .intro h2 {
-    font-size: 28px;
-  }
-
-  .play-layout {
-    width: min(100%, 800px);
-    flex: 1;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(260px, .82fr);
-    align-items: center;
-    gap: clamp(48px, 8vw, 100px);
-    margin: auto 0;
+    width: min(100% - 40px, 820px);
   }
 
   .board {
     width: min(100%, 390px);
-    gap: 9px;
+  }
+}
+
+@media (min-width: 900px) {
+  html,
+  body {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  body {
+    height: 100vh;
+    height: 100svh;
+  }
+
+  .game {
+    width: min(calc(100% - 64px), 1180px);
+    height: min(820px, calc(100svh - 48px));
+    min-height: 0;
+    padding: 0 clamp(34px, 6vw, 76px) 22px;
+  }
+
+  .topbar {
+    min-height: 74px;
+  }
+
+  .intro {
+    margin: 21px 0 15px;
+  }
+
+  .intro h2 {
+    font-size: 29px;
+  }
+
+  .play-layout {
+    width: min(100%, 940px);
+    flex: 1 1 auto;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, .92fr);
+    align-items: center;
+    gap: clamp(42px, 6vw, 82px);
+    margin: auto 0 16px;
+  }
+
+  .board-panel {
+    width: 100%;
+  }
+
+  .board {
+    width: min(100%, 420px);
+    gap: 10px;
   }
 
   .board-row {
-    gap: 9px;
+    gap: 10px;
   }
 
   .tile {
-    border-radius: 12px;
-    font-size: clamp(30px, 3.2vw, 40px);
+    border-radius: 14px;
+    font-size: clamp(30px, 3vw, 42px);
+  }
+
+  .controls-panel {
+    width: 100%;
+    min-width: 0;
+    padding: clamp(22px, 2.3vw, 30px);
+    border: 1px solid #ffffff12;
+    border-radius: 24px;
+    background: linear-gradient(145deg, #232733, #1d2029);
+    box-shadow: inset 0 1px #ffffff08, 0 20px 45px #0002;
+  }
+
+  .controls-heading {
+    width: 100%;
+    display: block;
+    margin-bottom: 22px;
+  }
+
+  .controls-heading h3 {
+    margin: 8px 0 5px;
+    font-size: 25px;
+    letter-spacing: -.4px;
+  }
+
+  .controls-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
   }
 
   .keyboard {
     width: 100%;
-    gap: 9px;
+    gap: 10px;
     margin: 0;
   }
 
   .keyboard-row {
-    gap: 6px;
+    gap: 5px;
   }
 
   .key {
-    height: clamp(48px, 6vh, 60px);
+    height: clamp(48px, 6svh, 60px);
     border-radius: 9px;
     font-size: 15px;
   }
@@ -508,28 +686,106 @@ kbd {
   .key.wide {
     font-size: 11px;
   }
+
+  .controls-note {
+    width: 100%;
+    display: block;
+    margin: 20px 0 0;
+    padding-top: 15px;
+    border-top: 1px solid #ffffff12;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 2;
+    text-align: center;
+  }
+
+  .controls-note kbd {
+    margin: 0 3px;
+  }
 }
 
-@media (pointer: coarse) and (min-width: 700px) and (max-height: 500px) {
+@media (min-width: 900px) and (max-height: 760px) {
+  .game {
+    height: calc(100svh - 24px);
+    min-height: 0;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+
+  .topbar {
+    min-height: 60px;
+  }
+
+  .intro {
+    margin: 11px 0 9px;
+  }
+
+  .play-layout {
+    margin-bottom: 8px;
+  }
+
+  .board {
+    width: min(100%, 36svh, 380px);
+  }
+
+  .tile {
+    border-radius: 10px;
+  }
+
+  .controls-panel {
+    padding: 20px;
+  }
+
+  .controls-heading {
+    margin-bottom: 15px;
+  }
+
+  .controls-heading h3 {
+    margin-top: 5px;
+    font-size: 22px;
+  }
+
+  .controls-note {
+    margin-top: 14px;
+    padding-top: 10px;
+  }
+}
+
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
   .game {
     width: 100%;
-    min-height: 100svh;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
     margin: 0;
     padding: env(safe-area-inset-top) max(18px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(18px, env(safe-area-inset-left));
+    overflow: hidden;
     border: 0;
     border-radius: 0;
     box-shadow: none;
   }
 
   .topbar {
-    min-height: 46px;
+    flex: 0 0 44px;
+    min-height: 44px;
   }
 
   .intro {
-    margin: 5px 0 8px;
+    flex: 0 0 auto;
+    margin: 3px 0 5px;
   }
 
-  .eyebrow {
+  .eyebrow,
+  .subtle {
     display: none;
   }
 
@@ -538,23 +794,27 @@ kbd {
     font-size: 18px;
   }
 
-  .subtle {
-    font-size: 11px;
-  }
-
   .play-layout {
-    flex: 1;
+    width: 100%;
+    flex: 1 1 0;
+    min-height: 0;
+    display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: center;
-    gap: clamp(14px, 3vw, 28px);
+    gap: clamp(12px, 3vw, 32px);
+    margin: 0;
   }
 
   .board-panel {
     width: auto;
+    flex: 0 1 auto;
+    min-height: 0;
   }
 
   .board {
-    width: min(48svh, 275px);
+    width: min(52dvh, calc(83.333dvh - 125px), 240px);
+    max-height: calc(100% - 23px);
     gap: 5px;
   }
 
@@ -564,21 +824,36 @@ kbd {
 
   .tile {
     border-radius: 7px;
-    font-size: clamp(20px, 5svh, 27px);
+    font-size: clamp(20px, 5dvh, 27px);
   }
 
   .message {
     min-height: 18px;
-    margin: 3px 0 0;
+    margin: 2px 0 0;
     font-size: 11px;
   }
 
   .message:empty {
-    min-height: 0;
+    min-height: 12px;
+  }
+
+  .controls-panel {
+    width: min(52vw, 400px);
+    flex: 0 1 400px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .controls-heading,
+  .controls-note {
+    display: none;
   }
 
   .keyboard {
-    width: min(48vw, 360px);
+    width: 100%;
     gap: 4px;
     margin: 0;
   }
@@ -588,7 +863,7 @@ kbd {
   }
 
   .key {
-    height: clamp(34px, 10svh, 44px);
+    height: clamp(30px, 8dvh, 42px);
     border-radius: 6px;
     font-size: 11px;
   }
@@ -598,23 +873,7 @@ kbd {
   }
 
   footer {
-    padding-top: 4px;
-  }
-}
-
-@media (display-mode: standalone) {
-  body {
-    padding:
-      env(safe-area-inset-top)
-      env(safe-area-inset-right)
-      env(safe-area-inset-bottom)
-      env(safe-area-inset-left);
-  }
-}
-
-@media (display-mode: standalone) and (max-width: 699px) {
-  .game {
-    min-height: calc(100svh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    display: none;
   }
 }
 

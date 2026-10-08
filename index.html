@@ -34,7 +34,15 @@
           <section id="board" class="board" aria-label="Spielfeld" aria-live="polite"></section>
           <p id="message" class="message" role="status" aria-live="polite"></p>
         </div>
-        <section id="keyboard" class="keyboard" aria-label="Bildschirmtastatur"></section>
+        <aside class="controls-panel" aria-label="Eingabe">
+          <div class="controls-heading">
+            <span class="eyebrow">DEIN ZUG</span>
+            <h3>Dein Tipp</h3>
+            <p>Gib ein Wort mit fünf Buchstaben ein.</p>
+          </div>
+          <section id="keyboard" class="keyboard" aria-label="Bildschirmtastatur"></section>
+          <p class="controls-note">Du kannst auch direkt mit der Tastatur tippen.<br><kbd>Enter</kbd> prüfen <span>·</span> <kbd>⌫</kbd> löschen</p>
+        </aside>
       </div>
 
       <footer>Ein neues Wort wartet schon. <button id="footer-new-game">Nochmal spielen</button></footer>
